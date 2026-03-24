@@ -32,14 +32,12 @@ if ! command -v docker &>/dev/null; then
   sudo usermod -aG docker "$USER"
 fi
 
-# .NET 9 SDK + runtime (update version number when .NET 10 releases)
-if ! command -v dotnet &>/dev/null; then
-  wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" \
-    -O /tmp/packages-microsoft-prod.deb
-  sudo dpkg -i /tmp/packages-microsoft-prod.deb
-  sudo apt-get update
-  sudo apt-get install -y dotnet-sdk-9.0
-fi
+# .NET 8, 9, and 10 SDKs
+wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" \
+  -O /tmp/packages-microsoft-prod.deb
+sudo dpkg -i /tmp/packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install -y dotnet-sdk-8.0 dotnet-sdk-9.0 dotnet-sdk-10.0
 
 # Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
