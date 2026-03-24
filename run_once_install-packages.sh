@@ -41,6 +41,9 @@ wget "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-m
   -O /tmp/packages-microsoft-prod.deb
 sudo dpkg -i /tmp/packages-microsoft-prod.deb
 rm /tmp/packages-microsoft-prod.deb
+
+sudo add-apt-repository ppa:dotnet/backports # Ubuntu 24.04 (WSL2)
+
 sudo apt update
 sudo apt install -y dotnet-sdk-10.0
 
