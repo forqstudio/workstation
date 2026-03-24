@@ -36,9 +36,10 @@ fi
 # dotnet-sdk-10.0 is installed via apt (Microsoft feed).
 # dotnet-sdk-8.0 and 9.0 are installed via dotnet-install.sh because Ubuntu's
 # versioned dotnet-host-X.0 packages conflict with each other when installed together.
-wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" \
+wget "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" \
   -O /tmp/packages-microsoft-prod.deb
 sudo dpkg -i /tmp/packages-microsoft-prod.deb
+rm /tmp/packages-microsoft-prod.deb
 sudo apt-get update
 sudo apt-get install -y dotnet-sdk-10.0
 
