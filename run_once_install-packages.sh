@@ -9,8 +9,8 @@ set -e
 #   chezmoi init --apply <your-git-repo-url>
 
 # Base packages
-sudo apt-get update
-sudo apt-get install -y tmux neovim git curl wget age zsh
+sudo apt update
+sudo apt install -y tmux neovim git curl wget age zsh
 
 # VS Code (via official Microsoft apt repo)
 if ! command -v code &>/dev/null; then
