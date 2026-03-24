@@ -33,19 +33,11 @@ if ! command -v docker &>/dev/null; then
   sudo usermod -aG docker "$USER"
 fi
 
-# .NET SDKs
-# 8.0 and 9.0 via dotnet-install.sh to avoid apt package conflicts.
-# 10.0 via apt on 25.10+; dotnet-install.sh on 22.04 (not available in apt).
+# .NET SDK (latest LTS)
 DOTNET_INSTALL="$(mktemp)"
 curl -fsSL https://dot.net/v1/dotnet-install.sh -o "$DOTNET_INSTALL"
 chmod +x "$DOTNET_INSTALL"
-"$DOTNET_INSTALL" --channel 8.0
-"$DOTNET_INSTALL" --channel 9.0
-if [[ "$(lsb_release -rs)" == "22.04" ]]; then
-  "$DOTNET_INSTALL" --channel 10.0
-else
-  sudo apt-get install -y dotnet-sdk-10.0
-fi
+"$DOTNET_INSTALL" --channel LTS
 rm "$DOTNET_INSTALL"
 
 # Oh My Zsh
