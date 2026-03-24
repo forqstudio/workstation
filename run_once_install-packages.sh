@@ -22,8 +22,8 @@ if ! command -v code &>/dev/null; then
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/packages.microsoft.gpg] \
     https://packages.microsoft.com/repos/code stable main" \
     | sudo tee /etc/apt/sources.list.d/vscode.list
-  sudo apt-get update
-  sudo apt-get install -y code
+  sudo apt update
+  sudo apt install -y code
 fi
 
 # Docker (via official apt repo — snap version has bind-mount and rootless limitations)
@@ -40,8 +40,8 @@ wget "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-m
   -O /tmp/packages-microsoft-prod.deb
 sudo dpkg -i /tmp/packages-microsoft-prod.deb
 rm /tmp/packages-microsoft-prod.deb
-sudo apt-get update
-sudo apt-get install -y dotnet-sdk-10.0
+sudo apt update
+sudo apt install -y dotnet-sdk-10.0
 
 DOTNET_INSTALL="$(mktemp)"
 curl -fsSL https://dot.net/v1/dotnet-install.sh -o "$DOTNET_INSTALL"
