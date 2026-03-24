@@ -19,7 +19,7 @@ if ! command -v code &>/dev/null; then
   sudo install -D -o root -g root -m 644 \
     /tmp/packages.microsoft.gpg \
     /etc/apt/keyrings/packages.microsoft.gpg
-  echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/packages.microsoft.gpg] \
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/packages.microsoft.gpg] \
     https://packages.microsoft.com/repos/code stable main" \
     | sudo tee /etc/apt/sources.list.d/vscode.list
   sudo apt-get update
@@ -32,12 +32,22 @@ if ! command -v docker &>/dev/null; then
   sudo usermod -aG docker "$USER"
 fi
 
-# .NET 8, 9, and 10 SDKs
+# .NET SDKs
+# dotnet-sdk-10.0 is installed via apt (Microsoft feed).
+# dotnet-sdk-8.0 and 9.0 are installed via dotnet-install.sh because Ubuntu's
+# versioned dotnet-host-X.0 packages conflict with each other when installed together.
 wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" \
   -O /tmp/packages-microsoft-prod.deb
 sudo dpkg -i /tmp/packages-microsoft-prod.deb
 sudo apt-get update
-sudo apt-get install -y dotnet-sdk-8.0 dotnet-sdk-9.0 dotnet-sdk-10.0
+sudo apt-get install -y dotnet-sdk-10.0
+
+DOTNET_INSTALL="$(mktemp)"
+curl -fsSL https://dot.net/v1/dotnet-install.sh -o "$DOTNET_INSTALL"
+chmod +x "$DOTNET_INSTALL"
+"$DOTNET_INSTALL" --channel 8.0
+"$DOTNET_INSTALL" --channel 9.0
+rm "$DOTNET_INSTALL"
 
 # Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
