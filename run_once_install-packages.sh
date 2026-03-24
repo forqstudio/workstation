@@ -44,8 +44,8 @@ rm /tmp/packages-microsoft-prod.deb
 
 sudo add-apt-repository ppa:dotnet/backports # Ubuntu 24.04 (WSL2)
 
-sudo apt update
-sudo apt install -y dotnet-sdk-10.0
+sudo apt-get update
+sudo apt-get install -y dotnet-sdk-10.0
 
 DOTNET_INSTALL="$(mktemp)"
 curl -fsSL https://dot.net/v1/dotnet-install.sh -o "$DOTNET_INSTALL"
