@@ -10,7 +10,7 @@ set -e
 
 # Base packages
 sudo apt-get update
-sudo apt-get install -y tmux neovim git curl wget age
+sudo apt-get install -y tmux neovim git curl wget age zsh
 
 # VS Code (via official Microsoft apt repo)
 if ! command -v code &>/dev/null; then
@@ -45,6 +45,7 @@ fi
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
     "" --unattended
+  chsh -s "$(which zsh)" "$USER"
 fi
 
 # NVM
