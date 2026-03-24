@@ -10,6 +10,7 @@ set -e
 
 # Base packages
 sudo apt update
+sudo apt upgrade -y
 sudo apt install -y tmux neovim git curl wget age zsh
 
 # VS Code (via official Microsoft apt repo)
