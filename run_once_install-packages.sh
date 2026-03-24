@@ -34,24 +34,18 @@ if ! command -v docker &>/dev/null; then
 fi
 
 # .NET SDKs
-# dotnet-sdk-10.0 is installed via apt (Microsoft feed).
-# dotnet-sdk-8.0 and 9.0 are installed via dotnet-install.sh because Ubuntu's
-# versioned dotnet-host-X.0 packages conflict with each other when installed together.
-wget "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" \
-  -O /tmp/packages-microsoft-prod.deb
-sudo dpkg -i /tmp/packages-microsoft-prod.deb
-rm /tmp/packages-microsoft-prod.deb
-
-sudo add-apt-repository ppa:dotnet/backports # Ubuntu 24.04 (WSL2)
-
-sudo apt-get update
-sudo apt-get install -y dotnet-sdk-10.0
-
+# 8.0 and 9.0 via dotnet-install.sh to avoid apt package conflicts.
+# 10.0 via apt on 25.10+; dotnet-install.sh on 22.04 (not available in apt).
 DOTNET_INSTALL="$(mktemp)"
 curl -fsSL https://dot.net/v1/dotnet-install.sh -o "$DOTNET_INSTALL"
 chmod +x "$DOTNET_INSTALL"
 "$DOTNET_INSTALL" --channel 8.0
 "$DOTNET_INSTALL" --channel 9.0
+if [[ "$(lsb_release -rs)" == "22.04" ]]; then
+  "$DOTNET_INSTALL" --channel 10.0
+else
+  sudo apt-get install -y dotnet-sdk-10.0
+fi
 rm "$DOTNET_INSTALL"
 
 # Oh My Zsh
