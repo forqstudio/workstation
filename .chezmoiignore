@@ -1,0 +1,15 @@
+# Secrets & credentials — never track these
+.claude.json
+.config/chezmoi/key.txt
+.ssh/known_hosts
+.ssh/known_hosts.old
+.gnupg/
+
+# Auto-generated / large data
+.nvm/
+.oh-my-zsh/
+.local/share/claude/
+.cache/
+.zcompdump*
+.bash_history
+.wget-hsts
