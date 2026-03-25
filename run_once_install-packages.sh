@@ -1,13 +1,6 @@
 #!/bin/bash
 set -e
 
-# NOTE: chezmoi must already be installed before this script runs.
-# Bootstrap a new machine with:
-#   sudo apt-get install -y git
-#   sudo snap install chezmoi --classic
-#   mkdir -p ~/.config/chezmoi && nano ~/.config/chezmoi/key.txt  # paste age key
-#   chezmoi init --apply <your-git-repo-url>
-
 # Base packages
 sudo apt update
 sudo apt install -y tmux neovim git curl wget age zsh mc btop ripgrep
