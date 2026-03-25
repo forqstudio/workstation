@@ -17,8 +17,8 @@ Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 | `~/.gitconfig` | Git user name and email |
 | `~/.config/git/ignore` | Global gitignore |
 | `~/.config/Code/User/keybindings.json` | VS Code keybindings |
-| `~/.ssh/id_ed25519` | SSH private key (age-encrypted) |
-| `~/.ssh/id_ed25519.pub` | SSH public key |
+| `~/.ssh/id_ed25519` | SSH private key (age-encrypted with chezmoi `--encrypt`) |
+| `~/.ssh/id_ed25519.pub` | SSH public key (plaintext) |
 
 The `run_once_install-packages.sh` script runs automatically on first `chezmoi apply` and installs:
 - neovim, tmux, git, curl, wget, age, zsh
@@ -97,6 +97,28 @@ chezmoi add --encrypt ~/.some-secret-file
 
 # Commit changes
 cd ~/.local/share/chezmoi && git add -A && git commit -m "..."
+```
+
+---
+
+## SSH key storage
+
+The SSH files live in `private_dot_ssh/` in this repo:
+
+| Source file | Destination | Notes |
+|---|---|---|
+| `private_dot_ssh/id_ed25519.pub` | `~/.ssh/id_ed25519.pub` | Plaintext — safe to commit |
+| `private_dot_ssh/encrypted_private_id_ed25519.age` | `~/.ssh/id_ed25519` | Encrypted with age before committing |
+
+The `private_` prefix tells chezmoi to apply `chmod 600` to the destination files (required for SSH to accept the private key).
+
+On `chezmoi apply`, the `.age` file is decrypted using `~/.config/chezmoi/key.txt` and written to `~/.ssh/id_ed25519`.
+
+To re-add your SSH keys after rotating them:
+
+```bash
+chezmoi add ~/.ssh/id_ed25519.pub
+chezmoi add --encrypt ~/.ssh/id_ed25519
 ```
 
 ---
