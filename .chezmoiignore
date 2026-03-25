@@ -13,3 +13,7 @@
 .zcompdump*
 .bash_history
 .wget-hsts
+
+# 1Password — app data and device-specific CLI config
+.config/1Password/
+.config/op/
