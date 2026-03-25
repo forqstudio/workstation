@@ -14,6 +14,7 @@
 .bash_history
 .wget-hsts
 
-# 1Password — app data and device-specific CLI config
+# 1Password — app data, device-specific CLI config, and SSH agent socket
 .config/1Password/
 .config/op/
+.1password/

@@ -72,6 +72,30 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
+# SSH agent setup
+if grep -qi microsoft /proc/version 2>/dev/null; then
+  # WSL2: relay Windows SSH agent named pipe → Unix socket via socat + npiperelay.
+  # Works with 1Password SSH agent or Windows built-in OpenSSH agent —
+  # both expose //./pipe/openssh-ssh-agent. Skipped if tools aren't installed.
+  if command -v npiperelay.exe &>/dev/null && command -v socat &>/dev/null; then
+    _OP_SOCK="$HOME/.1password/agent.sock"
+    export SSH_AUTH_SOCK="$_OP_SOCK"
+    if ! ss -xlp 2>/dev/null | grep -qF "$_OP_SOCK"; then
+      mkdir -p "$(dirname "$_OP_SOCK")"
+      rm -f "$_OP_SOCK"
+      setsid socat UNIX-LISTEN:"$_OP_SOCK",fork \
+        EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork \
+        </dev/null &>/dev/null &
+    fi
+    unset _OP_SOCK
+  fi
+else
+  # Linux native: use 1Password agent socket only if it exists (1Password is running)
+  if [ -S "$HOME/.1password/agent.sock" ]; then
+    export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+  fi
+fi
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration

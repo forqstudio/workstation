@@ -43,6 +43,13 @@ if ! grep -qi microsoft /proc/version 2>/dev/null; then
   fi
 fi
 
+# socat — needed for 1Password / Windows OpenSSH agent relay in WSL2
+if grep -qi microsoft /proc/version 2>/dev/null; then
+  if ! command -v socat &>/dev/null; then
+    sudo apt install -y socat
+  fi
+fi
+
 # Docker — skip on WSL2 where Docker Desktop provides the daemon via integration
 if ! grep -qi microsoft /proc/version 2>/dev/null; then
   if ! command -v docker &>/dev/null; then
@@ -113,5 +120,6 @@ row docker    docker --version
 row dotnet    dotnet --version
 row node      node --version
 row nvm       nvm --version
+row socat     socat -V
 row op        op --version
 row 1password 1password --version
