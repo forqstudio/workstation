@@ -36,20 +36,28 @@ Each tool is installed only if not already present — the script is safe to re-
 
 ## Setting up a new machine
 
-### 1. Prerequisites
+> **Note:** The repo is private, and your SSH key is encrypted inside it — so bootstrapping requires a temporary key. See [Known limitations](#known-limitations) below.
+
+### 1. Install prerequisites
 
 ```bash
-sudo apt-get install -y git
+sudo apt-get install -y git age
 sudo snap install chezmoi --classic
 ```
 
-### 2. Restore the age key
+### 2. Install 1Password desktop
 
-The age key is required to decrypt the SSH private key. Copy it from your password manager:
+Download and install the [1Password desktop app](https://1password.com/downloads/linux/) manually (`.deb` package). Sign in with your email, password, and YubiKey.
+
+> The 1Password CLI (`op`) does not support YubiKey 2FA in the terminal. The desktop app must be installed first to access your secrets.
+
+### 3. Restore the age key
+
+Open 1Password desktop, find the **Chezmoi Age Key** secure note, and copy its contents:
 
 ```bash
 mkdir -p ~/.config/chezmoi
-nano ~/.config/chezmoi/key.txt   # paste the key, save
+nano ~/.config/chezmoi/key.txt   # paste the key, save and exit
 chmod 600 ~/.config/chezmoi/key.txt
 ```
 
@@ -60,21 +68,53 @@ The key looks like:
 AGE-SECRET-KEY-1...
 ```
 
-### 3. Apply dotfiles
+### 4. Create a temporary SSH key for GitHub
+
+Your real SSH key is age-encrypted in the repo (safe to store in git, but requires the age key to decrypt). Until chezmoi has applied it, you need a throwaway key just to clone:
 
 ```bash
-chezmoi init --apply <your-git-repo-url>
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_tmp -N "" -C "bootstrap-tmp"
+cat ~/.ssh/id_ed25519_tmp.pub
+```
+
+Go to **GitHub → Settings → SSH and GPG keys → New SSH key**, paste the public key, and save.
+
+### 5. Clone and apply dotfiles
+
+```bash
+GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_tmp" chezmoi init --apply git@github.com:USER/REPO.git
 ```
 
 This will:
 1. Clone this repo to `~/.local/share/chezmoi/`
-2. Apply all dotfiles to your home directory
-3. Decrypt and restore your SSH key
+2. Decrypt and restore your real SSH key to `~/.ssh/id_ed25519`
+3. Apply all dotfiles to your home directory
 4. Run the install script (installs all tools listed above)
 
-### 4. Post-setup
+### 6. Remove the temporary SSH key
 
-After the install script runs, log out and back in (or `newgrp docker`) for Docker group membership to take effect.
+Delete the throwaway key from GitHub (**Settings → SSH and GPG keys**) and locally:
+
+```bash
+rm ~/.ssh/id_ed25519_tmp ~/.ssh/id_ed25519_tmp.pub
+```
+
+### 7. Post-setup
+
+Log out and back in (or run `newgrp docker`) for Docker group membership to take effect.
+
+---
+
+## Known limitations
+
+The current setup has a bootstrap dependency problem:
+
+- The repo is **private** → requires SSH auth to clone
+- Your **SSH key is inside the repo** (age-encrypted) → can't use it before cloning
+- The **age key lives in 1Password** → requires 1Password desktop installed first
+- The **1Password CLI can't sign in** with a YubiKey in the terminal → desktop app must be installed manually
+
+This creates a chain of manual steps every time a new machine is set up. A future improvement would be a bootstrap script that automates steps 1–6 using `op` CLI (connected to the signed-in desktop app) and GitHub CLI for HTTPS-based cloning.
 
 ---
 
