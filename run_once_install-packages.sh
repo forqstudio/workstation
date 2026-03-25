@@ -10,8 +10,7 @@ set -e
 
 # Base packages
 sudo apt update
-sudo apt upgrade -y
-sudo apt install -y tmux neovim git curl wget age zsh
+sudo apt install -y tmux neovim git curl wget age zsh mc btop ripgrep fd
 
 # VS Code (via official Microsoft apt repo)
 if ! command -v code &>/dev/null; then
@@ -34,11 +33,13 @@ if ! command -v docker &>/dev/null; then
 fi
 
 # .NET SDK (latest LTS)
-DOTNET_INSTALL="$(mktemp)"
-curl -fsSL https://dot.net/v1/dotnet-install.sh -o "$DOTNET_INSTALL"
-chmod +x "$DOTNET_INSTALL"
-"$DOTNET_INSTALL" --channel LTS
-rm "$DOTNET_INSTALL"
+if ! command -v dotnet &>/dev/null; then
+  DOTNET_INSTALL="$(mktemp)"
+  curl -fsSL https://dot.net/v1/dotnet-install.sh -o "$DOTNET_INSTALL"
+  chmod +x "$DOTNET_INSTALL"
+  "$DOTNET_INSTALL" --channel LTS
+  rm "$DOTNET_INSTALL"
+fi
 
 # Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -49,5 +50,7 @@ fi
 
 # NVM
 if [ ! -d "$HOME/.nvm" ]; then
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+  NVM_VERSION=$(curl -fsSL https://api.github.com/repos/nvm-sh/nvm/releases/latest \
+    | grep '"tag_name"' | sed 's/.*"tag_name": *"\(.*\)".*/\1/')
+  curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
 fi

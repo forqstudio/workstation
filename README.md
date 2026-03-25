@@ -21,12 +21,14 @@ Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 | `~/.ssh/id_ed25519.pub` | SSH public key |
 
 The `run_once_install-packages.sh` script runs automatically on first `chezmoi apply` and installs:
-- neovim, tmux, git, curl, wget, age
+- neovim, tmux, git, curl, wget, age, zsh
 - VS Code (via Microsoft apt repo)
-- Docker (via official apt repo)
-- .NET 9 SDK
+- Docker (via official get.docker.com script)
+- .NET SDK (latest LTS, installed to `~/.dotnet` via dotnet-install.sh)
 - Oh My Zsh
-- NVM
+- NVM (latest release, fetched dynamically from GitHub)
+
+Each tool is installed only if not already present — the script is safe to re-run.
 
 ---
 
