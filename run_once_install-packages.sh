@@ -7,7 +7,8 @@ sudo apt update
 sudo apt install -y software-properties-common
 sudo add-apt-repository -y universe
 sudo apt update
-sudo apt install -y tmux neovim git curl wget age zsh mc btop ripgrep
+
+sudo apt install -y tmux neovim git curl wget age zsh mc btop
 
 # VS Code (via official Microsoft apt repo)
 if ! command -v code &>/dev/null; then
@@ -51,3 +52,21 @@ if [ ! -d "$HOME/.nvm" ]; then
     | grep '"tag_name"' | sed 's/.*"tag_name": *"\(.*\)".*/\1/')
   curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
 fi
+
+# Installed versions
+echo "=== Installed versions ==="
+tmux -V
+nvim --version | head -1
+git --version
+curl --version | head -1
+wget --version | head -1
+age --version
+zsh --version
+mc --version | head -1
+btop --version
+rg --version | head -1
+code --version | head -1
+docker --version
+dotnet --version
+node --version 2>/dev/null || echo "node: not in PATH (restart shell to load nvm)"
+echo "nvm: $([ -d "$HOME/.nvm" ] && cat "$HOME/.nvm/alias/default" 2>/dev/null || echo 'installed')"
