@@ -3,7 +3,7 @@ set -e
 
 # 1Password CLI apt repo (written unconditionally so apt update always succeeds)
 curl -fsSL https://downloads.1password.com/linux/keys/1password.asc \
-  | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+  | sudo gpg --yes --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] \
   https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" \
   | sudo tee /etc/apt/sources.list.d/1password.list
@@ -34,6 +34,13 @@ fi
 # 1Password CLI (repo set up at top of script; install only if missing)
 if ! command -v op &>/dev/null; then
   sudo apt install -y 1password-cli
+fi
+
+# 1Password desktop — skip on WSL2 (run Windows app instead)
+if ! grep -qi microsoft /proc/version 2>/dev/null; then
+  if ! command -v 1password &>/dev/null; then
+    sudo apt install -y 1password
+  fi
 fi
 
 # Docker — skip on WSL2 where Docker Desktop provides the daemon via integration
@@ -107,3 +114,4 @@ row dotnet    dotnet --version
 row node      node --version
 row nvm       nvm --version
 row op        op --version
+row 1password 1password --version
