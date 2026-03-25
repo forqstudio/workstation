@@ -39,21 +39,8 @@ The `run_once_install-packages.sh` script runs automatically on first `chezmoi a
 | [.NET SDK](https://dotnet.microsoft.com) | Cross-platform .NET (Core) SDK, latest LTS, installed to `~/.dotnet` | [docs](https://learn.microsoft.com/en-us/dotnet/) |
 | [VS Code](https://code.visualstudio.com) | Source code editor by Microsoft (via apt repo) | [docs](https://code.visualstudio.com/docs) |
 | [Docker](https://www.docker.com) | Container platform (via get.docker.com) | [docs](https://docs.docker.com) |
-| [socat](http://www.dest-unreach.org/socat/) | Multipurpose relay — used to bridge Windows SSH agent into WSL2 (WSL2 only) | [docs](http://www.dest-unreach.org/socat/doc/socat.html) |
 
 Each tool is installed only if not already present — the script is safe to re-run.
-
----
-
-## SSH agent support
-
-The `.zshrc` automatically sets `SSH_AUTH_SOCK` to the 1Password agent socket if it is running. If 1Password is not installed or not running, this is a no-op — any existing SSH agent (OpenSSH, GNOME keyring, etc.) continues to work as normal.
-
-| Setup | Linux | WSL2 |
-|---|---|---|
-| 1Password SSH agent | Auto-configured by `.zshrc` | Auto-started by `.zshrc` (requires `npiperelay.exe`) |
-| Windows OpenSSH agent | N/A | Same auto-start (requires `npiperelay.exe`) |
-| Linux system agent (OpenSSH, GNOME keyring) | Unchanged | Unchanged |
 
 ---
 
@@ -68,22 +55,18 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
 
 This places the `chezmoi` binary in `~/.local/bin`. Make sure that directory is in your `$PATH`.
 
-### 2. Set up SSH access to GitHub
+### 2. Set up your SSH key
 
 GitHub requires SSH (or a personal access token) — password authentication is not supported.
 
-#### Option A — 1Password SSH agent (zero key-file setup)
+**Option A — restore your existing key from 1Password:**
 
-1. Install 1Password desktop → sign in
-2. Enable the SSH agent: **Settings → Developer → Use the SSH agent**
-3. Your GitHub SSH key is already stored in 1Password from a previous machine
-4. Export the socket for the first clone:
-   ```bash
-   export SSH_AUTH_SOCK=~/.1password/agent.sock
-   ```
-5. Proceed to Step 3 — no key file restoration needed
+```bash
+install -m 600 /dev/null ~/.ssh/id_ed25519
+nano ~/.ssh/id_ed25519   # paste the private key, save and exit
+```
 
-#### Option B — OpenSSH / new key
+**Option B — generate a new key:**
 
 ```bash
 ssh-keygen -t ed25519 -C "you@example.com"
@@ -91,22 +74,6 @@ cat ~/.ssh/id_ed25519.pub   # copy this output
 ```
 
 Then add the public key to GitHub: **Settings → SSH and GPG keys → New SSH key**.
-
-#### WSL2 — relay Windows SSH agent into WSL2
-
-Both 1Password for Windows and the Windows built-in OpenSSH agent expose the same named pipe. Use `socat` + `npiperelay.exe` to forward it into WSL2:
-
-```bash
-# Prerequisites:
-#   - socat in WSL2 (installed automatically by run_once_install-packages.sh)
-#   - npiperelay.exe on Windows PATH accessible from WSL2
-mkdir -p ~/.1password
-socat UNIX-LISTEN:~/.1password/agent.sock,fork \
-  EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &
-export SSH_AUTH_SOCK=~/.1password/agent.sock
-```
-
-After `chezmoi apply`, the relay starts automatically on every new shell via `.zshrc` — no manual startup script needed.
 
 ### 3. Clone and apply dotfiles
 
@@ -198,6 +165,6 @@ cd ~/.local/share/chezmoi && git add -A && git commit -m "..."
 
 ## Security
 
-- SSH keys are **not stored in this repo** — 1Password acts as an SSH agent only; private key material never touches the filesystem.
-- `.chezmoiignore` blocks accidental addition of secrets (`.claude.json`, gnupg, NVM, 1Password socket dir, etc.).
+- SSH keys are **not stored in this repo** — restore them from 1Password after applying dotfiles.
+- `.chezmoiignore` blocks accidental addition of secrets (`.claude.json`, gnupg, NVM, etc.).
 - Personal info (name, email) is injected via chezmoi templates and stored in the local, untracked `~/.config/chezmoi/chezmoi.toml`.
