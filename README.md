@@ -15,9 +15,19 @@ Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 | `~/.gitconfig` | Git user name and email (injected via chezmoi template) |
 | `~/.config/git/ignore` | Global gitignore |
 | `~/.config/Code/User/keybindings.json` | VS Code keybindings |
+| `~/.config/Code/User/settings.json` | VS Code settings (zen mode restore) |
 | `~/.config/btop/btop.conf` | btop system monitor config |
 
 The `run_once_install-packages.sh` script runs automatically on first `chezmoi apply` and installs:
+
+The `run_onchange_install-vscode-extensions.sh` script installs VS Code extensions and re-runs automatically whenever the extension list changes:
+
+| Extension | ID |
+|-----------|----|
+| C# Dev Kit | `ms-dotnettools.csdevkit` |
+| Container Tools | `ms-azuretools.vscode-containers` |
+| Dev Containers | `ms-vscode-remote.remote-containers` |
+| Claude Code | `Anthropic.claude-code` |
 
 | Package | Description | Reference |
 |---------|-------------|-----------|
