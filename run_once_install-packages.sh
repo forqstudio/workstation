@@ -10,7 +10,7 @@ set -e
 
 # Base packages
 sudo apt update
-sudo apt install -y tmux neovim git curl wget age zsh mc btop ripgrep fd
+sudo apt install -y tmux neovim git curl wget age zsh mc btop ripgrep
 
 # VS Code (via official Microsoft apt repo)
 if ! command -v code &>/dev/null; then
