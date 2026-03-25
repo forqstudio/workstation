@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+# 1Password CLI apt repo (written unconditionally so apt update always succeeds)
+curl -fsSL https://downloads.1password.com/linux/keys/1password.asc \
+  | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] \
+  https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" \
+  | sudo tee /etc/apt/sources.list.d/1password.list
+
 # Base packages
 sudo apt update
 # universe repo may not be enabled by default on WSL2 Ubuntu 22.04
@@ -22,6 +29,11 @@ if ! command -v code &>/dev/null; then
     | sudo tee /etc/apt/sources.list.d/vscode.list
   sudo apt update
   sudo apt install -y code
+fi
+
+# 1Password CLI (repo set up at top of script; install only if missing)
+if ! command -v op &>/dev/null; then
+  sudo apt install -y 1password-cli
 fi
 
 # Docker — skip on WSL2 where Docker Desktop provides the daemon via integration
@@ -94,3 +106,4 @@ row docker    docker --version
 row dotnet    dotnet --version
 row node      node --version
 row nvm       nvm --version
+row op        op --version

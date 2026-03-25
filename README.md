@@ -27,6 +27,7 @@ The `run_once_install-packages.sh` script runs automatically on first `chezmoi a
 - .NET SDK (latest LTS, installed to `~/.dotnet` via dotnet-install.sh)
 - Oh My Zsh
 - NVM (latest release, fetched dynamically from GitHub)
+- 1Password CLI (`op`, via official apt repo)
 
 Each tool is installed only if not already present — the script is safe to re-run.
 
