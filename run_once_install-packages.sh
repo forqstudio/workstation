@@ -3,6 +3,10 @@ set -e
 
 # Base packages
 sudo apt update
+# universe repo may not be enabled by default on WSL2 Ubuntu 22.04
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y universe
+sudo apt update
 sudo apt install -y tmux neovim git curl wget age zsh mc btop ripgrep
 
 # VS Code (via official Microsoft apt repo)
