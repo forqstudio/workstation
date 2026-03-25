@@ -8,7 +8,7 @@ sudo apt install -y software-properties-common
 sudo add-apt-repository -y universe
 sudo apt update
 
-sudo apt install -y tmux neovim git curl wget age zsh mc btop
+sudo apt install -y tmux neovim git curl wget age zsh mc btop ripgrep
 
 # VS Code (via official Microsoft apt repo)
 if ! command -v code &>/dev/null; then
@@ -63,21 +63,34 @@ nvm install --lts
 # Load dotnet into PATH without requiring a shell restart
 export PATH="$HOME/.dotnet:$PATH"
 
-# Installed versions
+# Print installed versions
+GREEN='\033[0;32m'
+RESET='\033[0m'
+row() {
+  local name="$1"; shift
+  local version
+  if command -v "$1" &>/dev/null; then
+    version=$("$@" 2>&1 | head -1)
+  else
+    version="not found"
+  fi
+  printf "${GREEN}  %-12s${RESET} %s\n" "$name" "$version"
+}
+
+echo ""
 echo "=== Installed versions ==="
-v() { command -v "$1" &>/dev/null && "$@" || echo "$1: not found"; }
-v tmux -V
-v nvim --version | head -1
-v git --version
-v curl --version | head -1
-v wget --version | head -1
-v age --version
-v zsh --version
-v mc --version | head -1
-v btop --version
-v rg --version | head -1
-v code --version | head -1
-v docker --version
-v dotnet --version
-v node --version
-v nvm --version
+row tmux      tmux -V
+row nvim      nvim --version
+row git       git --version
+row curl      curl --version
+row wget      wget --version
+row age       age --version
+row zsh       zsh --version
+row mc        mc --version
+row btop      btop --version
+row rg        rg --version
+row code      code --version
+row docker    docker --version
+row dotnet    dotnet --version
+row node      node --version
+row nvm       nvm --version
