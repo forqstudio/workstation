@@ -64,6 +64,8 @@ GitHub requires SSH (or a personal access token) — password authentication is 
 ```bash
 install -m 600 /dev/null ~/.ssh/id_ed25519
 nano ~/.ssh/id_ed25519   # paste the private key, save and exit
+install -m 644 /dev/null ~/.ssh/id_ed25519.pub
+nano ~/.ssh/id_ed25519.pub   # paste the public key, save and exit
 ```
 
 **Option B — generate a new key:**
