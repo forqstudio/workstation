@@ -120,23 +120,62 @@ This creates a chain of manual steps every time a new machine is set up. A futur
 
 ## Day-to-day usage
 
+### Editing dotfiles
+
 ```bash
-# Edit a tracked dotfile
+# Edit a tracked dotfile (opens in $EDITOR, applies on save)
 chezmoi edit ~/.zshrc
 
-# See what would change
+# Edit and immediately apply
+chezmoi edit --apply ~/.zshrc
+
+# Open the source directory directly
+chezmoi cd
+```
+
+### Applying changes
+
+```bash
+# Preview what would change (dry run)
 chezmoi diff
 
-# Apply changes from source to home
+# Apply all pending changes from source to home
 chezmoi apply
 
-# Add a new file to track
+# Apply a single file
+chezmoi apply ~/.zshrc
+```
+
+### Adding files
+
+```bash
+# Track a new file
 chezmoi add ~/.config/some/file
 
-# Add a file with encryption (for secrets)
+# Track a new file with age encryption (for secrets/keys)
 chezmoi add --encrypt ~/.some-secret-file
 
-# Commit changes
+# Re-add after editing the destination directly
+chezmoi re-add ~/.zshrc
+```
+
+### Syncing
+
+```bash
+# Pull latest changes from git and apply
+chezmoi update
+
+# Check what the last-applied state looks like
+chezmoi status
+```
+
+### Committing
+
+```bash
+# Stage and commit from within the source directory
+chezmoi cd && git add -A && git commit -m "..."
+
+# Or with the full path
 cd ~/.local/share/chezmoi && git add -A && git commit -m "..."
 ```
 
