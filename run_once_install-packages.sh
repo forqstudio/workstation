@@ -53,6 +53,14 @@ if [ ! -d "$HOME/.nvm" ]; then
   curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
 fi
 
+export NVM_DIR="$HOME/.nvm"
+# shellcheck disable=SC1091
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+nvm install --lts
+
+# Load dotnet into PATH without requiring a shell restart
+export PATH="$HOME/.dotnet:$PATH"
+
 # Installed versions
 echo "=== Installed versions ==="
 tmux -V
@@ -68,5 +76,5 @@ rg --version | head -1
 code --version | head -1
 docker --version
 dotnet --version
-node --version 2>/dev/null || echo "node: not in PATH (restart shell to load nvm)"
-echo "nvm: $([ -d "$HOME/.nvm" ] && cat "$HOME/.nvm/alias/default" 2>/dev/null || echo 'installed')"
+node --version
+nvm --version
