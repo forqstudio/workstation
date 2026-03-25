@@ -45,6 +45,15 @@ sudo apt-get install -y git age
 sudo snap install chezmoi --classic
 ```
 
+**Or without snap** (downloads a binary directly):
+
+```bash
+sudo apt-get install -y git age
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
+```
+
+This places the `chezmoi` binary in `~/.local/bin`. Make sure that directory is in your `$PATH`.
+
 ### 2. Install 1Password desktop
 
 Download and install the [1Password desktop app](https://1password.com/downloads/linux/) manually (`.deb` package). Sign in with your email, password, and YubiKey.
