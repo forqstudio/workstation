@@ -18,7 +18,7 @@ Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 | `~/.config/btop/btop.conf` | btop system monitor config |
 
 The `run_once_install-packages.sh` script runs automatically on first `chezmoi apply` and installs:
-- neovim, tmux, git, curl, wget, age, zsh
+- neovim, tmux, git, curl, wget, age, zsh, mc, btop, ripgrep
 - VS Code (via Microsoft apt repo)
 - Docker (via official get.docker.com script)
 - .NET SDK (latest LTS, installed to `~/.dotnet` via dotnet-install.sh)
