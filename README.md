@@ -17,6 +17,7 @@ Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 | `~/.gitconfig` | Git user name and email |
 | `~/.config/git/ignore` | Global gitignore |
 | `~/.config/Code/User/keybindings.json` | VS Code keybindings |
+| `~/.config/btop/btop.conf` | btop system monitor config |
 | `~/.ssh/id_ed25519` | SSH private key (age-encrypted with chezmoi `--encrypt`) |
 | `~/.ssh/id_ed25519.pub` | SSH public key (plaintext) |
 
