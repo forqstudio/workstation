@@ -62,7 +62,8 @@ fi
 
 # Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+  # KEEP_ZSHRC=yes prevents the installer from overwriting chezmoi-managed ~/.zshrc
+  KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
     "" --unattended
   chsh -s "$(which zsh)" "$USER"
 fi
