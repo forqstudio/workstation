@@ -24,10 +24,12 @@ if ! command -v code &>/dev/null; then
   sudo apt install -y code
 fi
 
-# Docker (via official apt repo — snap version has bind-mount and rootless limitations)
-if ! command -v docker &>/dev/null; then
-  curl -fsSL https://get.docker.com | sh
-  sudo usermod -aG docker "$USER"
+# Docker — skip on WSL2 where Docker Desktop provides the daemon via integration
+if ! grep -qi microsoft /proc/version 2>/dev/null; then
+  if ! command -v docker &>/dev/null; then
+    curl -fsSL https://get.docker.com | sh
+    sudo usermod -aG docker "$USER"
+  fi
 fi
 
 # .NET SDK (latest LTS)
@@ -63,18 +65,19 @@ export PATH="$HOME/.dotnet:$PATH"
 
 # Installed versions
 echo "=== Installed versions ==="
-tmux -V
-nvim --version | head -1
-git --version
-curl --version | head -1
-wget --version | head -1
-age --version
-zsh --version
-mc --version | head -1
-btop --version
-rg --version | head -1
-code --version | head -1
-docker --version
-dotnet --version
-node --version
-nvm --version
+v() { command -v "$1" &>/dev/null && "$@" || echo "$1: not found"; }
+v tmux -V
+v nvim --version | head -1
+v git --version
+v curl --version | head -1
+v wget --version | head -1
+v age --version
+v zsh --version
+v mc --version | head -1
+v btop --version
+v rg --version | head -1
+v code --version | head -1
+v docker --version
+v dotnet --version
+v node --version
+v nvm --version
