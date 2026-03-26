@@ -1,4 +1,6 @@
 {
     "zenMode.restore": true,
-    "workbench.colorTheme": "Night Owl"
+    "workbench.colorTheme": "Night Owl",
+    "editor.fontFamily": "FiraCode Nerd Font",
+    "editor.fontLigatures": true
 }
