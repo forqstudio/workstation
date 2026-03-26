@@ -20,20 +20,6 @@ Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 
 The `run_once_install-packages.sh` script runs automatically on first `chezmoi apply` and installs:
 
-The `run_onchange_install-vscode-extensions.sh` script installs VS Code extensions and re-runs automatically whenever the extension list changes:
-
-| Extension | ID |
-|-----------|----|
-| Python | `ms-python.python` |
-| C# Dev Kit | `ms-dotnettools.csdevkit` |
-| Container Tools | `ms-azuretools.vscode-containers` |
-| Dev Containers | `ms-vscode-remote.remote-containers` |
-| Terraform | `HashiCorp.terraform` |
-| Claude Code | `Anthropic.claude-code` |
-| Night Owl (theme) | `sdras.night-owl` |
-
-The `run_onchange_install-fonts.sh` script installs [FiraCode Nerd Font](https://github.com/ryanoasis/nerd-fonts) to `~/.local/share/fonts/` (skipped if already present) and re-runs automatically if the script changes.
-
 | Package | Description | Reference |
 |---------|-------------|-----------|
 | [git](https://git-scm.com) | Distributed version control system | [docs](https://git-scm.com/doc) |
@@ -57,6 +43,20 @@ The `run_onchange_install-fonts.sh` script installs [FiraCode Nerd Font](https:/
 | [Docker](https://www.docker.com) | Container platform (via get.docker.com) | [docs](https://docs.docker.com) |
 
 Each tool is installed only if not already present — the script is safe to re-run.
+
+The `run_onchange_install-vscode-extensions.sh` script installs VS Code extensions and re-runs automatically whenever the extension list changes:
+
+| Extension | ID |
+|-----------|----|
+| Python | `ms-python.python` |
+| C# Dev Kit | `ms-dotnettools.csdevkit` |
+| Container Tools | `ms-azuretools.vscode-containers` |
+| Dev Containers | `ms-vscode-remote.remote-containers` |
+| Terraform | `HashiCorp.terraform` |
+| Claude Code | `Anthropic.claude-code` |
+| Night Owl (theme) | `sdras.night-owl` |
+
+The `run_onchange_install-fonts.sh` script installs [FiraCode Nerd Font](https://github.com/ryanoasis/nerd-fonts) to `~/.local/share/fonts/` (skipped if already present) and re-runs automatically if the script changes.
 
 ---
 
