@@ -24,10 +24,15 @@ The `run_onchange_install-vscode-extensions.sh` script installs VS Code extensio
 
 | Extension | ID |
 |-----------|----|
+| Python | `ms-python.python` |
 | C# Dev Kit | `ms-dotnettools.csdevkit` |
 | Container Tools | `ms-azuretools.vscode-containers` |
 | Dev Containers | `ms-vscode-remote.remote-containers` |
+| Terraform | `HashiCorp.terraform` |
 | Claude Code | `Anthropic.claude-code` |
+| Night Owl (theme) | `sdras.night-owl` |
+
+The `run_onchange_install-fonts.sh` script installs [FiraCode Nerd Font](https://github.com/ryanoasis/nerd-fonts) to `~/.local/share/fonts/` (skipped if already present) and re-runs automatically if the script changes.
 
 | Package | Description | Reference |
 |---------|-------------|-----------|
@@ -46,6 +51,7 @@ The `run_onchange_install-vscode-extensions.sh` script installs VS Code extensio
 | [1Password](https://1password.com) | Password manager desktop app (skipped on WSL2) | [downloads](https://1password.com/downloads/linux/) |
 | [NVM](https://github.com/nvm-sh/nvm) | Node Version Manager — installs and switches Node versions | [repo](https://github.com/nvm-sh/nvm) |
 | [Node.js LTS](https://nodejs.org) | JavaScript runtime (installed via NVM) | [docs](https://nodejs.org/en/docs) |
+| [Bun](https://bun.sh) | Fast JavaScript runtime and package manager | [docs](https://bun.sh/docs) |
 | [.NET SDK](https://dotnet.microsoft.com) | Cross-platform .NET (Core) SDK, latest LTS, installed to `~/.dotnet` | [docs](https://learn.microsoft.com/en-us/dotnet/) |
 | [VS Code](https://code.visualstudio.com) | Source code editor by Microsoft (via apt repo) | [docs](https://code.visualstudio.com/docs) |
 | [Docker](https://www.docker.com) | Container platform (via get.docker.com) | [docs](https://docs.docker.com) |
@@ -103,12 +109,6 @@ This will:
 ### 4. Post-setup
 
 Log out and back in (or run `newgrp docker`) for Docker group membership to take effect.
-
----
-
-## Known limitations
-
-The 1Password CLI (`op`) does not support YubiKey 2FA in the terminal. If you need to access secrets via `op` during bootstrap, install the 1Password desktop app first (`.deb` from [1password.com/downloads/linux](https://1password.com/downloads/linux/)) and sign in — this unlocks the CLI.
 
 ---
 
@@ -177,6 +177,6 @@ cd ~/.local/share/chezmoi && git add -A && git commit -m "..."
 
 ## Security
 
-- SSH keys are **not stored in this repo** — restore them from 1Password after applying dotfiles.
+- SSH keys are **not stored in this repo** — restore them from your passsword manager after applying dotfiles.
 - `.chezmoiignore` blocks accidental addition of secrets (`.claude.json`, gnupg, NVM, etc.).
 - Personal info (name, email) is injected via chezmoi templates and stored in the local, untracked `~/.config/chezmoi/chezmoi.toml`.
