@@ -1,6 +1,15 @@
 # dotfiles
 
-Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
+personal workstation managed with [chezmoi](https://www.chezmoi.io/) — dotfiles, tools, and extensions across machines.
+
+---
+
+## TODO
+
+- [ ] Configure VS Code user settings (`settings.json`)
+- [ ] Confugure Claude Code config and settings (`.claude/settings.json`)
+- [ ] Configure OpenCode config/settings (`~/.config/opencode/opencode.json`, `~/.config/opencode/tui.json`)
+- [ ] Configure Zsh plugins (`~/.zshrc`, `~/.oh-my-zsh/custom/plugins/`)
 
 ---
 
@@ -41,7 +50,8 @@ The `run_once_install-packages.sh` script runs automatically on first `chezmoi a
 | [.NET SDK](https://dotnet.microsoft.com) | Cross-platform .NET (Core) SDK, latest LTS, installed to `~/.dotnet` | [docs](https://learn.microsoft.com/en-us/dotnet/) |
 | [VS Code](https://code.visualstudio.com) | Source code editor by Microsoft (via apt repo) | [docs](https://code.visualstudio.com/docs) |
 | [Docker](https://www.docker.com) | Container platform (via get.docker.com) | [docs](https://docs.docker.com) |
-
+| [Claude Code](https://claude.ai/code) | Anthropic's official CLI for Claude (installed via npm) | [docs](https://docs.anthropic.com/en/docs/claude-code) |
+| [OpenCode](https://opencode.ai) | Open-source AI coding assistant CLI | [docs](https://opencode.ai/docs) |
 Each tool is installed only if not already present — the script is safe to re-run.
 
 The `run_onchange_install-vscode-extensions.sh` script installs VS Code extensions and re-runs automatically whenever the extension list changes:

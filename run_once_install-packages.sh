@@ -60,6 +60,9 @@ if ! command -v dotnet &>/dev/null; then
   rm "$DOTNET_INSTALL"
 fi
 
+# Load dotnet into PATH without requiring a shell restart
+export PATH="$HOME/.dotnet:$PATH"
+
 # Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   # KEEP_ZSHRC=yes prevents the installer from overwriting chezmoi-managed ~/.zshrc
@@ -85,8 +88,15 @@ if ! command -v bun &>/dev/null; then
   curl -fsSL https://bun.sh/install | bash
 fi
 
-# Load dotnet into PATH without requiring a shell restart
-export PATH="$HOME/.dotnet:$PATH"
+# Claude Code
+if ! command -v claude &>/dev/null; then
+  npm install -g @anthropic-ai/claude-code
+fi
+
+# OpenCode
+if ! command -v opencode &>/dev/null; then
+  curl -fsSL https://opencode.ai/install | bash
+fi
 
 # Print installed versions
 GREEN='\033[0;32m'
@@ -119,6 +129,8 @@ row docker    docker --version
 row dotnet    dotnet --version
 row node      node --version
 row nvm       nvm --version
+row claude    claude --version
+row opencode  opencode --version
 row bun       bun --version
 row op        op --version
 row 1password 1password --version
