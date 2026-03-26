@@ -80,6 +80,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 nvm install --lts
 
+# Bun
+if ! command -v bun &>/dev/null; then
+  curl -fsSL https://bun.sh/install | bash
+fi
+
 # Load dotnet into PATH without requiring a shell restart
 export PATH="$HOME/.dotnet:$PATH"
 
@@ -114,5 +119,6 @@ row docker    docker --version
 row dotnet    dotnet --version
 row node      node --version
 row nvm       nvm --version
+row bun       bun --version
 row op        op --version
 row 1password 1password --version
