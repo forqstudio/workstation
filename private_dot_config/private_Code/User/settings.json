@@ -1,3 +1,4 @@
 {
-    "zenMode.restore": true
+    "zenMode.restore": true,
+    "workbench.colorTheme": "Night Owl"
 }
