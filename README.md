@@ -52,6 +52,7 @@ The `run_once_install-packages.sh` script runs automatically on first `chezmoi a
 | [Docker](https://www.docker.com) | Container platform (via get.docker.com) | [docs](https://docs.docker.com) |
 | [Claude Code](https://claude.ai/code) | Anthropic's official CLI for Claude (installed via npm) | [docs](https://docs.anthropic.com/en/docs/claude-code) |
 | [OpenCode](https://opencode.ai) | Open-source AI coding assistant CLI | [docs](https://opencode.ai/docs) |
+
 Each tool is installed only if not already present — the script is safe to re-run.
 
 The `run_onchange_install-vscode-extensions.sh` script installs VS Code extensions and re-runs automatically whenever the extension list changes:
