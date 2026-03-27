@@ -98,6 +98,11 @@ if ! command -v opencode &>/dev/null; then
   curl -fsSL https://opencode.ai/install | bash
 fi
 
+# Azure CLI
+if ! command -v az &>/dev/null; then
+  curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+fi
+
 # Print installed versions
 GREEN='\033[0;32m'
 RESET='\033[0m'
@@ -132,5 +137,6 @@ row nvm       nvm --version
 row claude    claude --version
 row opencode  opencode --version
 row bun       bun --version
+row az        az --version
 row op        op --version
 row 1password 1password --version
