@@ -119,3 +119,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # bun completions
 [ -s "/home/dev/.bun/_bun" ] && source "/home/dev/.bun/_bun"
 
+
+# opencode
+export PATH=/home/dev/.opencode/bin:$PATH
