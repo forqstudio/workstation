@@ -12,5 +12,5 @@ if command -v code &>/dev/null; then
   code --install-extension Anthropic.claude-code --force
   
   # theme
-  code --install-extension sdras.night-owl --force
+  code --install-extension Catppuccin.catppuccin-vsc --force
 fi

@@ -103,6 +103,22 @@ if ! command -v az &>/dev/null; then
   curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 fi
 
+# Warp terminal — skip on WSL2 and non-amd64
+if ! grep -qi microsoft /proc/version 2>/dev/null; then
+  if ! command -v warp-terminal &>/dev/null; then
+    wget -qO- https://releases.warp.dev/linux/keys/warp.asc \
+      | gpg --dearmor > /tmp/warpdotdev.gpg
+    sudo install -D -o root -g root -m 644 \
+      /tmp/warpdotdev.gpg /etc/apt/keyrings/warpdotdev.gpg
+    rm /tmp/warpdotdev.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/warpdotdev.gpg] \
+      https://releases.warp.dev/linux/deb stable main" \
+      | sudo tee /etc/apt/sources.list.d/warpdotdev.list
+    sudo apt update
+    sudo apt install -y warp-terminal
+  fi
+fi
+
 # Print installed versions
 GREEN='\033[0;32m'
 RESET='\033[0m'
@@ -140,3 +156,8 @@ row bun       bun --version
 row az        az --version
 row op        op --version
 row 1password 1password --version
+if dpkg -s warp-terminal &>/dev/null 2>&1; then
+  printf "${GREEN}  %-12s${RESET} %s\n" "warp" "$(dpkg-query -W -f='${Version}' warp-terminal)"
+else
+  printf "${GREEN}  %-12s${RESET} %s\n" "warp" "not found"
+fi
