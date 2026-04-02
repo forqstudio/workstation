@@ -1,6 +1,15 @@
 {
     "zenMode.restore": true,
-    "workbench.colorTheme": "Catppuccin Frappé",
+    "workbench.colorTheme": "Catppuccin Mocha",
     "editor.fontFamily": "FiraCode Nerd Font",
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
+    "editor.cursorStyle": "underline",
+    "zenMode.centerLayout": false,
+    "zenMode.hideLineNumbers": false,
+    "workbench.iconTheme": "catppuccin-mocha",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    "workbench.preferredLightColorTheme": "Catppuccin Frappé",
+    "workbench.tips.enabled": false,
+    "workbench.settings.enableNaturalLanguageSearch": false,
+    "workbench.settings.showAISearchToggle": false
 }
