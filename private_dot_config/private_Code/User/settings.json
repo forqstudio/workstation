@@ -11,5 +11,8 @@
     "workbench.preferredLightColorTheme": "Catppuccin Frappé",
     "workbench.tips.enabled": false,
     "workbench.settings.enableNaturalLanguageSearch": false,
-    "workbench.settings.showAISearchToggle": false
+    "workbench.settings.showAISearchToggle": false,
+    "editor.minimap.enabled": false,
+    "editor.guides.bracketPairs": true,
+    "editor.guides.bracketPairsHorizontal": false
 }
