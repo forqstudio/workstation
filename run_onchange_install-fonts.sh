@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+sudo apt install -y unzip
+
 # FiraCode Nerd Font
 if ! fc-list | grep -qi "FiraCode Nerd Font"; then
   FIRACODE_VERSION=$(curl -fsSL https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest \
