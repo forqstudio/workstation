@@ -52,7 +52,7 @@ add_apt_repo() {
   if [[ "$key_url" == /* ]]; then
     sudo cp "$key_url" "$keyring"
   else
-    curl -fsSL "$key_url" | gpg --dearmor -o "$keyring"
+    curl -fsSL "$key_url" | sudo gpg --dearmor --yes -o "$keyring"
   fi
 
   local arch=$(dpkg --print-architecture)
